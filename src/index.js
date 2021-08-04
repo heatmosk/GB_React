@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { AppFunc, AppClass } from "./App";
+import { AppClass } from "./AppClass";
+import { AppFunc } from "./AppFunc";
 
 ReactDOM.render(
   <React.StrictMode>
