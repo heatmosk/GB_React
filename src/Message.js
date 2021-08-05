@@ -1,6 +1,9 @@
-import "./Message.css";
+import messageStyle from "./message.module.css";
 export function Message(props) {
-    return (
-        <h1 className="message">Message component: props.message = {props.message}</h1>
-    );
+  const { author, text } = props;
+  return (
+    <div className={messageStyle.message}>
+      <b>{author}</b>: <i>{text}</i>
+    </div>
+  );
 }
