@@ -1,13 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { AppClass } from "./AppClass";
-import { AppFunc } from "./AppFunc";
+import { App } from "./App";
 
 ReactDOM.render(
   <React.StrictMode>
-    <AppClass title="Чатик (class app)" author="Alex" />
-    <hr />
-    <AppFunc title="Чатик (function app)" author="John Doe" />
+    <App title="My chat" user="Alex" />
   </React.StrictMode>,
   document.getElementById("root")
 );

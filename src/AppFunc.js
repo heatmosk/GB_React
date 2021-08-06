@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
+import {
+  Button,
+  Container,
+  List,
+  ListItem,
+  TextField,
+  Paper,
+  Typography,
+} from "@material-ui/core";
 import { Message } from "./Message";
-import appStyles from "./app.module.css";
 
 export function AppFunc(props) {
   const author = props.author || "User";
@@ -11,60 +19,66 @@ export function AppFunc(props) {
   const botname = "Bot";
   const handleSendMessage = (author, text) => {
     if (text.trim().length > 0) {
-      setMessages((state) => [...state, { author: author, text: text }]);
+      setMessages((state) => [...state, { author, text }]);
     }
   };
 
   useEffect(() => {
+    let bot = 0;
     if (messages.length > 0 && messages.slice(-1).shift().author !== botname) {
-      const bot = setInterval(() => {
-        handleSendMessage(botname, "Hi! " + messages.length);
-        clearInterval(bot);
-      }, delay);
+      bot = setTimeout(
+        () => handleSendMessage(botname, "Hi! " + messages.length),
+        delay
+      );
     }
+    return () => clearTimeout(bot);
   }, [messages]);
 
   return (
-    <div className={appStyles.app}>
-      <h1 className={appStyles.app_header}>{title}</h1>
-      <h2>App as func</h2>
-      {messages.length > 0 && (
-        <ul className={appStyles.app_messages}>
-          {messages.map((message) => (
-            <li>
-              <Message author={message.author} text={message.text} />
-            </li>
-          ))}
-        </ul>
-      )}
+    <Container maxWidth="sm">
       <div>
-        <label for="fmessage">
-          <b>{author}</b>:&nbsp;
-          <input
-            className={appStyles.app_input_message}
-            type="text"
-            id="fmessage"
-            name="fmessage"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-        </label>
-        <button
-          className={appStyles.app_button_send}
+        <TextField
+          label="Enter message"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          inputRef={(input) => {
+            if (input != null) {
+              input.focus();
+            }
+          }}
+        />
+        <Button
+          variant="contained"
+          color="primary"
           onClick={() => {
             handleSendMessage(author, message);
             setMessage("");
           }}
         >
           send
-        </button>
-        <button
-          className={appStyles.app_button_clear}
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
           onClick={() => setMessages([])}
         >
           clear
-        </button>
+        </Button>
       </div>
-    </div>
+
+      <Paper style={{ maxHeight: "85vh", overflow: "auto" }}>
+        {messages.length > 0 && (
+          <List>
+            {messages.map((message) => (
+              <ListItem style={{ maxWidth: "100%" }}>
+                <Box width="100%">
+                  <Message author={message.author} text={message.text} />
+                </Box>
+              </ListItem>
+            ))}
+          </List>
+        )}
+      </Paper>
+    </Container>
   );
 }
