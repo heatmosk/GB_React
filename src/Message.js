@@ -1,9 +1,14 @@
-import messageStyle from "./message.module.css";
+import { Typography } from "@material-ui/core";
 export function Message(props) {
   const { author, text } = props;
   return (
-    <div className={messageStyle.message}>
-      <b>{author}</b>: <i>{text}</i>
-    </div>
+    <>
+      <Typography gutterBottom variant="h5" component="p">
+        {author}
+      </Typography>
+      <Typography variant="body2" color="textSecondary" component="p">
+        {text}
+      </Typography>
+    </>
   );
 }
